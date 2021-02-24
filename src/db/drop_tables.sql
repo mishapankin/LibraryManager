@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS "authors";
+DROP TABLE IF EXISTS "readers";
+DROP TABLE IF EXISTS "publisher";
+DROP TABLE IF EXISTS "books";
+DROP TABLE IF EXISTS "book_instances";
+DROP TABLE IF EXISTS "rents";
