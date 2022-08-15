@@ -1,11 +1,14 @@
-import './App.scss'
+import Sidebar from "./components/Sidebar.jsx";
+import Content from "./components/Content.jsx";
+import "./style/App.scss"
 
-function App() {
-  return (
-    <div className="App">
-      Hello, world!
-    </div>
-  )
-}
+const App = () => {
+    return (
+        <div id="App">
+            <Sidebar/>
+            <Content/>
+        </div>
+    );
+};
 
-export default App
+export default App;
