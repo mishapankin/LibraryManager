@@ -1,0 +1,57 @@
+@use 'constants';
+
+#App {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    height: 100%;
+    color: constants.$text;
+    font-weight: 300;
+}
+
+#Sidebar {
+    background-color: constants.$dark_background;
+    width: 20rem;
+    border-right: constants.$line-width solid constants.$border;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 5em;
+}
+
+#Content {
+    background-color: constants.$main_background;
+    flex-grow: 1;
+    padding: 5rem;
+ }
+
+.SideItem {
+    padding: 1rem 3rem 1rem 3em;
+}
+
+.SideItem:hover {
+    background-color: constants.$highlight;
+}
+
+.PageTitle {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th, td {
+    display: table-cell;
+    border: constants.$line-width solid constants.$border;
+    padding: 0.5rem;
+}
+
+th, td:first-child, td:last-child {
+    border-left: none;
+    border-right: none;
+}
+
