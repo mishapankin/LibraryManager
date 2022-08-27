@@ -7,6 +7,8 @@ import mmp.librarymanager.repositories.AuthorRepository;
 import mmp.librarymanager.repositories.BookRepository;
 import mmp.librarymanager.repositories.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,9 +28,11 @@ public class ApiController {
     }
 
     @GetMapping("/api/get/books")
-    public Iterable<Book> getBooks(@RequestParam String name) {
-//        return bookRepository.getBooksJoined();
-        return bookRepository.getBooksJoinedAuthor("%" + name + "%");
+    public Iterable<Book> getBooks(@RequestParam String author, @RequestParam String title) {
+        Pageable page = PageRequest.of(0, 10);
+        String author_template = "%" + author + "%";
+        String title_template = "%" + title + "%";
+        return bookRepository.getFiltered(author_template, title_template, page);
     }
 
     @GetMapping("/api/get/publishers")

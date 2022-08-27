@@ -12,7 +12,7 @@ const Books = () => {
     const [authorName, setAuthorName] = useState("");
 
     useFetch("/api/get/books?" +
-        new URLSearchParams({name: authorName}),
+        new URLSearchParams({author: authorName, title: ""}),
         {}, (dat) => setData(dat.map(createData)), [authorName]);
 
     return (
