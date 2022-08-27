@@ -30,9 +30,7 @@ public class ApiController {
     @GetMapping("/api/get/books")
     public Iterable<Book> getBooks(@RequestParam String author, @RequestParam String title) {
         Pageable page = PageRequest.of(0, 10);
-        String author_template = "%" + author + "%";
-        String title_template = "%" + title + "%";
-        return bookRepository.getFiltered(author_template, title_template, page);
+        return bookRepository.getFiltered(author.toLowerCase(), title.toLowerCase(), page);
     }
 
     @GetMapping("/api/get/publishers")
