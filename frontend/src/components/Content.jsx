@@ -1,9 +1,9 @@
-import Operations from "./Operations.jsx";
+import Books from "./Books.jsx";
 
 const Content = () => {
     return (
         <div id="Content">
-            <Operations/>
+            <Books/>
         </div>
     );
 };

@@ -4,13 +4,13 @@ const Table = ( { headers, data}) => {
           <tbody>
           <tr>
               {
-                  headers.map((row) => <th>{row}</th>)
+                  headers.map((row) => <th key={row}>{row}</th>)
               }
           </tr>
           {data.map((row) =>
-              <tr>
+              <tr key={row.toString()}>
                   {row.map((val, ind) =>
-                      <td>{val}</td>
+                      <td key={headers[ind]}>{val}</td>
                   )}
               </tr>
           )}

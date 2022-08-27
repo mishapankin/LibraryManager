@@ -1,10 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="LibraryManagerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="ACTIVE_PROFILES" />
-    <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
     <module name="LibraryManager" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="mmp.librarymanager.LibraryManagerApplication" />
-    <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

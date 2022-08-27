@@ -4,29 +4,26 @@
     display: flex;
     flex-direction: row;
     align-items: stretch;
-    height: 100%;
     color: constants.$text;
     font-weight: 300;
 }
 
 #Sidebar {
     background-color: constants.$dark_background;
-    width: 20rem;
-    border-right: constants.$line-width solid constants.$border;
+    width: fit-content;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    padding-top: 5em;
+    padding-top: 3rem;
 }
 
 #Content {
-    background-color: constants.$main_background;
     flex-grow: 1;
-    padding: 5rem;
+    padding: 3rem;
  }
 
 .SideItem {
-    padding: 1rem 3rem 1rem 3em;
+    padding: 1rem 3rem 1rem 3rem;
 }
 
 .SideItem:hover {
@@ -34,7 +31,7 @@
 }
 
 .PageTitle {
-    font-size: 4rem;
+    font-size: constants.$title_font_size;
     margin-bottom: 2rem;
 }
 
@@ -46,7 +43,7 @@ table {
 
 th, td {
     display: table-cell;
-    border: constants.$line-width solid constants.$border;
+    border: constants.$border-width solid constants.$table-border;
     padding: 0.5rem;
 }
 
@@ -55,3 +52,23 @@ th, td:first-child, td:last-child {
     border-right: none;
 }
 
+.Filters {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2rem;
+    align-items: center;
+    gap: 1rem;
+}
+
+.Icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+input {
+    background-color: constants.$input_background;
+    border-width: constants.$border-width;
+    border-style: solid;
+    border-radius:  0.5rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+}
