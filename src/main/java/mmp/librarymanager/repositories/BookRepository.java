@@ -9,7 +9,8 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("select b from Book b join fetch b.author a join fetch b.publisher p where " +
-            "(lower(a.name) like concat(?1, '%') or lower(a.name) like concat('% ', ?1, '%')) and" +
-            "(lower(b.title) like concat(?2, '%') or lower(b.title) like concat('% ', ?2, '%'))")
-    List<Book> getFiltered(String name, String title, Pageable p);
+            "(lower(' ' || a.name) like ('% ' || ?1 || '%')) and" +
+            "(lower(' ' || b.title) like ('% ' || ?2 || '%')) and" +
+            "(b.isbn like (?3 || '%'))")
+    List<Book> getFiltered(String name, String title, String isbn, Pageable p);
 }

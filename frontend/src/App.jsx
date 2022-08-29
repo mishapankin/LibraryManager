@@ -1,13 +1,20 @@
+import Books from "./components/Books.jsx";
+import {Box} from "@mui/material";
 import Sidebar from "./components/Sidebar.jsx";
-import Content from "./components/Content.jsx";
-import "./style/App.scss"
+import {Route, Routes} from "react-router-dom";
 
 const App = () => {
     return (
-        <div id="App">
+        <Box sx={{display: "flex"}}>
             <Sidebar/>
-            <Content/>
-        </div>
+            <Box component="main"
+                sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}>
+
+                <Routes>
+                    <Route path="/books" element={<Books/>}/>
+                </Routes>
+            </Box>
+        </Box>
     );
 };
 

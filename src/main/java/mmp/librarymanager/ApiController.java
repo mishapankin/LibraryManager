@@ -28,9 +28,11 @@ public class ApiController {
     }
 
     @GetMapping("/api/get/books")
-    public Iterable<Book> getBooks(@RequestParam String author, @RequestParam String title) {
-        Pageable page = PageRequest.of(0, 10);
-        return bookRepository.getFiltered(author.toLowerCase(), title.toLowerCase(), page);
+    public Iterable<Book> getBooks(@RequestParam String author,
+                                   @RequestParam String title,
+                                   @RequestParam String isbn) {
+        Pageable page = PageRequest.of(0, 1000);
+        return bookRepository.getFiltered(author.toLowerCase(), title.toLowerCase(), isbn, page);
     }
 
     @GetMapping("/api/get/publishers")
