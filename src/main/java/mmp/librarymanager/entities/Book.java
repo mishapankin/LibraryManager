@@ -1,25 +1,24 @@
 package mmp.librarymanager.entities;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table(name = "book")
 @Getter
 public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
-    @SequenceGenerator(name="book_seq")
-    @Column(name = "id", nullable = false)
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
+//    @SequenceGenerator(name="book_seq")
+//    @Column(name = "id", nullable = false)
+//    private Long id;
 
-    @Column(name="isbn", nullable = false)
+    @Id
+    @Column(name="isbn", columnDefinition = "char(13)", nullable = false)
     private String isbn;
 
     @ManyToOne
@@ -30,6 +29,9 @@ public class Book {
 
     @Column(name="title", nullable = false)
     private String title;
+
+    @OneToMany(mappedBy = "book")
+    private Set<BookInstance> bookInstanceList;
 
     public Book() {}
 

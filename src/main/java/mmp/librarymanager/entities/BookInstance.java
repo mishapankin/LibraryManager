@@ -15,5 +15,6 @@ public class BookInstance {
     private Long id;
 
     @ManyToOne
+    @JoinColumn
     Book book;
 }

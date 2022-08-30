@@ -1,5 +1,6 @@
 package mmp.librarymanager;
 
+import mmp.librarymanager.dto.BookInfo;
 import mmp.librarymanager.entities.Book;
 import mmp.librarymanager.entities.Reader;
 import mmp.librarymanager.repositories.AuthorRepository;
@@ -21,21 +22,11 @@ public class ApiController {
     @Autowired
     private ReaderRepository readerRepository;
 
-    @GetMapping("/api/get/authors")
-    public Iterable<String> getAuthors() {
-        return authorRepository.authorNames();
-    }
-
-    @GetMapping("/api/get/books")
-    public Iterable<Book> getBooks(@RequestParam String author,
-                                   @RequestParam String title,
-                                   @RequestParam String isbn) {
-        return bookRepository.getFiltered(author.toLowerCase(), title.toLowerCase(), isbn);
-    }
-
-    @GetMapping("/api/get/publishers")
-    public Iterable<String> getPublishers() {
-        return publisherRepository.publisherNames();
+    @GetMapping("/api/get/book_info")
+    public Iterable<BookInfo> getBookInfo(@RequestParam String author,
+                                          @RequestParam String title,
+                                          @RequestParam String isbn) {
+        return bookRepository.getBookInfo(author.toLowerCase(), title.toLowerCase(), isbn);
     }
 
     @GetMapping("/api/get/readers")
