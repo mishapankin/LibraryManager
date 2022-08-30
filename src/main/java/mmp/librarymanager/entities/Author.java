@@ -12,7 +12,8 @@ import java.util.UUID;
 @Getter
 public class Author {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_seq")
+    @SequenceGenerator(name="author_seq")
     @Column(name = "id", nullable = false)
     private Long id;
 

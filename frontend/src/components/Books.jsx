@@ -7,17 +7,17 @@ import { DataGrid } from '@mui/x-data-grid';
 const headers = [
     {field: "title", headerName: "Название", flex: 3},
     {field: "author", headerName: "Автор", flex: 3},
-    {field: "total", headerName: "Всего", flex: 1}, 
-    {field: "available", headerName: "Осталось", flex: 1},
+    // {field: "total", headerName: "Всего", flex: 1},
+    // {field: "available", headerName: "Осталось", flex: 1},
     {field: "id", headerName:  "ISBN", flex: 2},
     {field: "publisher", headerName: "Издательство", flex: 2},
 ];
 
 const createData = (row) => ({
     title: row.title, 
-    author: row.author.name, 
-    total: row.total,
-    available: row.available,
+    author: row.author.name,
+    // total: row.total,
+    // available: row.available,
     id: row.isbn,
     publisher: row.publisher.name,
 });
@@ -34,7 +34,7 @@ const Books = () => {
         new URLSearchParams({author: authorName, title: title, isbn: isbn}),
         {}, (res) => setData(res.map(createData)), [authorName, title, isbn]);
 
-    useFetch("/api/get/authors", {}, (res) => setAuthorList(res.map(v => v.name)), []);
+    useFetch("/api/get/authors", {}, (res) => setAuthorList(res), []);
 
     return (
         <Box>
@@ -71,7 +71,6 @@ const Books = () => {
             <DataGrid
                 columns={headers}
                 rows={data}
-                autoHeight
                 sx={{height: "80vh"}}
                 disableColumnFilter
             />

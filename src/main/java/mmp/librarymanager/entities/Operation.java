@@ -12,7 +12,8 @@ import java.util.UUID;
 @Getter
 public class Operation {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "operation_seq")
+    @SequenceGenerator(name="operation_seq")
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -20,7 +21,7 @@ public class Operation {
     private OperationType type;
 
     @ManyToOne
-    private Book book;
+    private BookInstance bookInstance;
 
     @ManyToOne
     private Reader reader;
@@ -30,9 +31,9 @@ public class Operation {
 
     public Operation() {}
 
-    public Operation(OperationType type, Book book, Reader reader, Date date) {
+    public Operation(OperationType type, BookInstance bookInstance, Reader reader, Date date) {
         this.type = type;
-        this.book = book;
+        this.bookInstance = bookInstance;
         this.reader = reader;
         this.date = date;
     }

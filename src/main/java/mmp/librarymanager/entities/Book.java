@@ -14,7 +14,8 @@ import java.util.UUID;
 @Getter
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
+    @SequenceGenerator(name="book_seq")
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -30,20 +31,12 @@ public class Book {
     @Column(name="title", nullable = false)
     private String title;
 
-    @Column(name="total", nullable=false)
-    private int total;
-
-    @Column(name="available", nullable=false)
-    private int available;
-
     public Book() {}
 
-    public Book(String isbn, Author author, Publisher publisher, String title, int total, int available) {
+    public Book(String isbn, Author author, Publisher publisher, String title) {
         this.isbn = isbn;
         this.author = author;
         this.publisher = publisher;
         this.title = title;
-        this.total = total;
-        this.available = available;
     }
 }

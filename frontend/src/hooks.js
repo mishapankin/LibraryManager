@@ -10,4 +10,13 @@ const useFetch = (url, args, onload, deps) => {
     )
 }
 
-export { useFetch };
+const postBodyDefault = {
+    method: "POST",
+    headers: {'Content-Type': 'application/json'}
+};
+
+const postRequest = (url, body) =>
+    fetch(url, {...postBodyDefault, body: JSON.stringify(body)})
+        .then(res => res.json());
+
+export { useFetch, postRequest };

@@ -1,17 +1,13 @@
 package mmp.librarymanager;
 
-import mmp.librarymanager.entities.Author;
 import mmp.librarymanager.entities.Book;
-import mmp.librarymanager.entities.Publisher;
+import mmp.librarymanager.entities.Reader;
 import mmp.librarymanager.repositories.AuthorRepository;
 import mmp.librarymanager.repositories.BookRepository;
 import mmp.librarymanager.repositories.PublisherRepository;
+import mmp.librarymanager.repositories.ReaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ApiController {
@@ -22,21 +18,34 @@ public class ApiController {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private ReaderRepository readerRepository;
+
     @GetMapping("/api/get/authors")
-    public Iterable<Author> getAuthors() {
-        return authorRepository.authors();
+    public Iterable<String> getAuthors() {
+        return authorRepository.authorNames();
     }
 
     @GetMapping("/api/get/books")
     public Iterable<Book> getBooks(@RequestParam String author,
                                    @RequestParam String title,
                                    @RequestParam String isbn) {
-        Pageable page = PageRequest.of(0, 1000);
-        return bookRepository.getFiltered(author.toLowerCase(), title.toLowerCase(), isbn, page);
+        return bookRepository.getFiltered(author.toLowerCase(), title.toLowerCase(), isbn);
     }
 
     @GetMapping("/api/get/publishers")
-    public Iterable<Publisher> getPublishers() {
-        return publisherRepository.publishers();
+    public Iterable<String> getPublishers() {
+        return publisherRepository.publisherNames();
+    }
+
+    @GetMapping("/api/get/readers")
+    public Iterable<Reader> getReaders(@RequestParam String name, @RequestParam String id) {
+        return readerRepository.getFiltered(name.toLowerCase(), id);
+    }
+
+    @PostMapping("/api/post/reader")
+    public Reader postReader(@RequestBody Reader reader) {
+        readerRepository.save(reader);
+        return reader;
     }
 }
