@@ -6,12 +6,11 @@ import { DataGrid } from '@mui/x-data-grid';
 import {useNavigate} from "react-router-dom";
 
 const headers = [
-    {field: "title", headerName: "Название", flex: 3},
-    {field: "author", headerName: "Автор", flex: 3},
-    {field: "total", headerName: "Всего", flex: 1},
-    // {field: "available", headerName: "Осталось", flex: 1},
-    {field: "id", headerName:  "ISBN", flex: 2},
-    {field: "publisher", headerName: "Издательство", flex: 2},
+    {field: "title", headerName: "Название", flex: 3, sortable: false},
+    {field: "author", headerName: "Автор", flex: 3, sortable: false},
+    {field: "total", headerName: "Всего", flex: 1, sortable: false},
+    {field: "id", headerName:  "ISBN", flex: 2, sortable: false},
+    {field: "publisher", headerName: "Издательство", flex: 2, sortable: false},
 ];
 
 const Books = () => {
@@ -64,7 +63,7 @@ const Books = () => {
                 density="compact"
                 onRowClick={(p) => navigate(`/book_instances/${p.row.id}`)}
                 sx={{height: "80vh"}}
-                disableColumnFilter
+                disableColumnMenu
             />
         </Box>
     );
