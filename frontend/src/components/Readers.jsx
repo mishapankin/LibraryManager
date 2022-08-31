@@ -5,20 +5,15 @@ import {
     Autocomplete,
     TextField,
     Box,
-    SpeedDial,
-    SpeedDialIcon,
     Button,
-    Dialog,
-    DialogTitle,
-    DialogContent, DialogActions
 } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import ReaderDialog from "./ReaderDialog.jsx";
 
 const headers = [
-    {field: "id", headerName: "№ читательского билета", flex: 1},
-    {field: "name", headerName: "ФИО", flex: 1},
-    {field: "address", headerName: "Адрес", flex: 1},
+    {field: "id", headerName: "№ читательского билета", flex: 1, sortable: false},
+    {field: "name", headerName: "ФИО", flex: 1, sortable: false},
+    {field: "address", headerName: "Адрес", flex: 1, sortable: false},
 ];
 
 const createData = (row) => ({

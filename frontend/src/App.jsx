@@ -18,6 +18,7 @@ const App = () => {
                     <Route path="/readers" element={<Readers/>}/>
                     <Route path="/book_instances/:isbn" element={<BookInstances/>}/>
                     <Route path="/operations" element={<Operations/>}/>
+                    <Route path="/operations/isbn=:isbnInit" element={<Operations/>}/>
                 </Routes>
             </Box>
         </Box>
