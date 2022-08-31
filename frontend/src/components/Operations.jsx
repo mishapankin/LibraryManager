@@ -31,8 +31,8 @@ const Operations = () => {
     const { bookInstanceIdInit } = useParams();
 
     const [isbn, setIsbn] = useState("");
-    const [readerId, setReaderId] = useState(idInit || "");
-    const [bookInstanceId, setBookInstanceId] = useState(bookInstanceIdInit || "")
+    const [readerId, setReaderId] = useState(idInit? `${idInit}!` : "");
+    const [bookInstanceId, setBookInstanceId] = useState(bookInstanceIdInit? `${bookInstanceIdInit}!` : "")
     const [notReturned, setNotReturned] = useState(false);
 
     const [page, setPage] = useState(0);

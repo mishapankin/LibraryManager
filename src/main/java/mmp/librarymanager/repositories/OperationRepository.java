@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Set;
 
@@ -22,9 +21,9 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
             "from Operation o where " +
                 "is_same(:isbn, o.bookInstance.book.isbn)=1 and " +
                 "is_same(:title, o.bookInstance.book.title)=1 and " +
-                "(cast(o.reader.id as text) like (:reader_id || '%')) and " +
+                "((cast(o.reader.id as text) || '!') like (:reader_id || '%')) and " +
                 "is_same(:reader_name, o.reader.name)=1 and " +
-                "(cast(o.bookInstance.id as text) like (:book_instance_id || '%')) and " +
+                "((cast(o.bookInstance.id as text) || '!') like (:book_instance_id || '%')) and " +
                 "((:not_returned = FALSE) or (o.returnDate is null))")
     Page<OperationDTO> getFiltered(String isbn,
                                    String title,
