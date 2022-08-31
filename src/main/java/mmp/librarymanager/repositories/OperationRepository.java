@@ -16,9 +16,9 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
     Set<Long> getNotEndedByBookISBN(String isbn);
 
     @Query("select new mmp.librarymanager.dto.OperationDTO(" +
-            "o.id, o.bookInstance.book.isbn, " +
+            "o.id, o.bookInstance.book.title, " +
             "o.date, o.dueDate, o.returnDate, " +
-            "o.reader.name, o.reader.id) " +
+            "o.reader.name, o.reader.id, o.bookInstance.id) " +
             "from Operation o where " +
                 "is_same(:isbn, o.bookInstance.book.isbn)=1 and " +
                 "is_same(:title, o.bookInstance.book.title)=1 and " +

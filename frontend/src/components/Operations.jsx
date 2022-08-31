@@ -16,12 +16,14 @@ const prettifyDate = (d) => {
 
 const headers = [
     {field: "id", headerName: "№", flex: 1, sortable: false},
-    {field: "isbn", headerName: "ISBN", flex: 2, sortable: false},
+    {field: "reader_id", headerName: "№ ЧБ", flex: 1, sortable: false},
+    {field: "book_instance_id", headerName: "№ ЭКЗ", flex: 1, sortable: false},
     {field: "date", headerName: "Дата взятия", flex: 2, valueFormatter: prettifyDate, sortable: false},
     {field: "dueDate", headerName: "До", flex: 2, valueFormatter: prettifyDate, sortable: false},
     {field: "returnDate", headerName: "Дата возвращения", flex: 2, valueFormatter: prettifyDate, sortable: false},
     {field: "name", headerName: "ФИО", flex: 3, sortable: false},
-    {field: "reader_id", headerName: "№ билета", flex: 1, sortable: false},
+    {field: "title", headerName: "Название", flex: 2, sortable: false},
+
 ];
 
 const Operations = () => {
