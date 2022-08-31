@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import ReaderDialog from "./ReaderDialog.jsx";
+import {useNavigate} from "react-router-dom";
 
 const headers = [
     {field: "id", headerName: "№ читательского билета", flex: 1, sortable: false},
@@ -32,6 +33,8 @@ const Books = () => {
     const closeDialog = () => setDialogOpened(false);
 
     const [newReader, setNewReader] = useState({name: "", address: ""});
+
+    const navigate = useNavigate();
 
     useFetch("/api/get/readers?",
         {id: id, name: name},
@@ -67,6 +70,7 @@ const Books = () => {
                 sx={{height: "80vh"}}
                 density="compact"
                 disableColumnMenu
+                onRowClick={(p) => navigate(`/operations/id=${p.row.id}`)}
             />
             <ReaderDialog newReader={newReader} setNewReader={setNewReader}
                           isOpen={dialogOpened} setIsOpen={setDialogOpened}

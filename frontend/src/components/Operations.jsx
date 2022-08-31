@@ -25,10 +25,12 @@ const headers = [
 ];
 
 const Operations = () => {
-    const { isbnInit } = useParams();
+    const { idInit } = useParams();
+    const { bookInstanceIdInit } = useParams();
 
-    const [isbn, setIsbn] = useState(isbnInit || "");
-    const [readerId, setReaderId] = useState("");
+    const [isbn, setIsbn] = useState("");
+    const [readerId, setReaderId] = useState(idInit || "");
+    const [bookInstanceId, setBookInstanceId] = useState(bookInstanceIdInit || "")
     const [notReturned, setNotReturned] = useState(false);
 
     const [page, setPage] = useState(0);
@@ -42,14 +44,14 @@ const Operations = () => {
             title: "",
             reader_id: readerId,
             reader_name: "",
-            book_instance_id: "",
+            book_instance_id: bookInstanceId,
             not_returned: notReturned}),
-        [page, pageSize, isbn, readerId, notReturned],
+        [page, pageSize, isbn, readerId, notReturned, bookInstanceId],
     );
 
     useFetch("/api/get/operations?", queryOptions, {},
             t => setPageInfo(t),
-        [page, pageSize, isbn, readerId, notReturned]);
+        [page, pageSize, isbn, readerId, notReturned, bookInstanceId]);
 
     return <Box>
         <Box sx={{display: "flex", p: 3, gap: 3, alignItems: "center"}}>
@@ -71,6 +73,15 @@ const Operations = () => {
                 onInputChange={(e, v) => setReaderId(v)}
                 options={[]}
                 renderInput={(params) => <TextField {...params} label="№ читательского билета" />}
+            />
+            <Autocomplete
+                id="book_instance_id_field"
+                style={{width: "15rem"}}
+                freeSolo
+                inputValue={bookInstanceId}
+                onInputChange={(e, v) => setBookInstanceId(v)}
+                options={[]}
+                renderInput={(params) => <TextField {...params} label="№ экземпляра" />}
             />
             <FormControlLabel control={<Checkbox defaultChecked checked={notReturned} onChange={v => setNotReturned(v.target.checked)} />} label="Не возвращенго" />
         </Box>

@@ -1,6 +1,6 @@
 import {Box, Chip, Typography} from "@mui/material";
 import {DataGrid} from "@mui/x-data-grid";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useFetch} from "../hooks.js";
 import {useState} from "react";
 
@@ -17,6 +17,8 @@ const BookInstances = () => {
     const { isbn } = useParams();
     const [ids, setIds] = useState([]);
 
+    const navigate = useNavigate();
+
     useFetch("/api/get/book_instances?",{"isbn": isbn}, {}, res => setIds(res), [isbn]);
 
     return <Box>
@@ -29,6 +31,7 @@ const BookInstances = () => {
             density="compact"
             sx={{height: "80vh"}}
             disableColumnMenu
+            onRowClick={(p) => navigate(`/operations/book_id=${p.row.id}`)}
         />
     </Box>
 };
