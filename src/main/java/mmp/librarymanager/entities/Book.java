@@ -30,7 +30,7 @@ public class Book {
     @Column(name="title", nullable = false)
     private String title;
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany
     private Set<BookInstance> bookInstanceList;
 
     public Book() {}

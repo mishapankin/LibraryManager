@@ -3,6 +3,7 @@ package mmp.librarymanager.entities;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "book_instance")
@@ -15,6 +16,9 @@ public class BookInstance {
     private Long id;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name="book_isbn", nullable = false)
     Book book;
+
+    @OneToMany
+    Set<Operation> operations;
 }

@@ -3,6 +3,7 @@ import {useFetch} from "../hooks.js";
 import { FilterAlt } from "@mui/icons-material";
 import {Autocomplete, TextField, Box} from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
+import {useNavigate} from "react-router-dom";
 
 const headers = [
     {field: "title", headerName: "Название", flex: 3},
@@ -18,6 +19,8 @@ const Books = () => {
     const [authorName, setAuthorName] = useState("");
     const [title, setTitle] = useState("");
     const [isbn, setISBN] = useState("");
+
+    const navigate = useNavigate();
 
     useFetch("/api/get/book_info?" +
         new URLSearchParams({author: authorName, title: title, isbn: isbn}),
@@ -59,6 +62,7 @@ const Books = () => {
                 columns={headers}
                 rows={data}
                 density="compact"
+                onRowClick={(p) => navigate(`/book_instances/${p.row.id}`)}
                 sx={{height: "80vh"}}
                 disableColumnFilter
             />

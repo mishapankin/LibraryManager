@@ -17,10 +17,8 @@ public class Operation {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "type", nullable = false)
-    private OperationType type;
-
     @ManyToOne
+    @JoinColumn(name = "book_instance_id", nullable = false)
     private BookInstance bookInstance;
 
     @ManyToOne
@@ -29,12 +27,19 @@ public class Operation {
     @Column(name = "date", nullable = false)
     private Date date;
 
+    @Column(name="due_date", nullable = false)
+    private Date dueDate;
+
+    @Column(name="return_date", nullable = true)
+    private Date returnDate;
+
     public Operation() {}
 
-    public Operation(OperationType type, BookInstance bookInstance, Reader reader, Date date) {
-        this.type = type;
+    public Operation(Long id, BookInstance bookInstance, Reader reader, Date date, Date dueDate) {
+        this.id = id;
         this.bookInstance = bookInstance;
         this.reader = reader;
         this.date = date;
+        this.dueDate = dueDate;
     }
 }
