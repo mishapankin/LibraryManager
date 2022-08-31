@@ -20,6 +20,9 @@ const BookInstances = () => {
     useFetch("/api/get/book_instances?" + new URLSearchParams({"isbn": isbn}), {}, res => setIds(res), [isbn]);
 
     return <Box>
+        <Box sx={{marginBottom: 3}}>
+            <Typography variant="h3">ISBN: {isbn}</Typography>
+        </Box>
         <DataGrid
             columns={headers}
             rows={ids}
