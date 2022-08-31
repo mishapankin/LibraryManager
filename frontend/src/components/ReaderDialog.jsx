@@ -1,9 +1,9 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
 import {postRequest} from "../hooks.js";
 
-const ReaderDialog = ( {newReader, setNewReader, isOpen, setIsOpen } ) => {
+const ReaderDialog = ( {newReader, setNewReader, isOpen, setIsOpen, onEnd } ) => {
     const createNewUser = () =>
-        postRequest("/api/post/reader", newReader).then(() => setIsOpen(false));
+        postRequest("/api/post/reader", newReader).then(() => {setIsOpen(false); onEnd()});
 
     return <Dialog open={isOpen}>
         <DialogTitle>Добавить нового читателя</DialogTitle>

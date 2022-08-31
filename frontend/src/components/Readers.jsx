@@ -12,8 +12,8 @@ import ReaderDialog from "./ReaderDialog.jsx";
 
 const headers = [
     {field: "id", headerName: "№ читательского билета", flex: 1, sortable: false},
-    {field: "name", headerName: "ФИО", flex: 1, sortable: false},
-    {field: "address", headerName: "Адрес", flex: 1, sortable: false},
+    {field: "name", headerName: "ФИО", flex: 5, sortable: false},
+    {field: "address", headerName: "Адрес", flex: 5, sortable: false},
 ];
 
 const createData = (row) => ({
@@ -59,17 +59,19 @@ const Books = () => {
                     options={[]}
                     renderInput={(params) => <TextField {...params} label="ФИО" />}
                 />
-                <Button variant="outlined" onClick={openDialog}>Добавить читателя</Button>
+                <Button variant="outlined" onClick={openDialog} sx={{marginLeft: "auto"}}>Добавить читателя</Button>
             </Box>
             <DataGrid
                 columns={headers}
                 rows={data}
                 sx={{height: "80vh"}}
                 density="compact"
-                disableColumnFilter
+                disableColumnMenu
             />
             <ReaderDialog newReader={newReader} setNewReader={setNewReader}
-                          isOpen={dialogOpened} setIsOpen={setDialogOpened}/>
+                          isOpen={dialogOpened} setIsOpen={setDialogOpened}
+                          onEnd={() => {setId(""); setName("")}}
+            />
         </Box>
     );
 };

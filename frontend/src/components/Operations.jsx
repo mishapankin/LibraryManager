@@ -1,4 +1,4 @@
-import {Autocomplete, Box, TextField} from "@mui/material";
+import {Autocomplete, Box, Checkbox, FormControlLabel, TextField} from "@mui/material";
 import {useMemo, useState} from "react";
 import {useFetch} from "../hooks.js";
 import {DataGrid} from "@mui/x-data-grid";
@@ -21,13 +21,15 @@ const headers = [
     {field: "dueDate", headerName: "До", flex: 2, valueFormatter: prettifyDate, sortable: false},
     {field: "returnDate", headerName: "Дата возвращения", flex: 2, valueFormatter: prettifyDate, sortable: false},
     {field: "name", headerName: "ФИО", flex: 3, sortable: false},
+    {field: "reader_id", headerName: "№ билета", flex: 1, sortable: false},
 ];
 
 const Operations = () => {
     const { isbnInit } = useParams();
 
     const [isbn, setIsbn] = useState(isbnInit || "");
-    const [reader_id, setReaderId] = useState("");
+    const [readerId, setReaderId] = useState("");
+    const [notReturned, setNotReturned] = useState(false);
 
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(15);
@@ -36,18 +38,18 @@ const Operations = () => {
 
     const queryOptions = useMemo(
         () => ({page, pageSize,
-            isbn,
+            isbn: isbn,
             title: "",
-            reader_id,
+            reader_id: readerId,
             reader_name: "",
             book_instance_id: "",
-            not_returned: false}),
-        [page, pageSize, isbn, reader_id],
+            not_returned: notReturned}),
+        [page, pageSize, isbn, readerId, notReturned],
     );
 
     useFetch("/api/get/operations?", queryOptions, {},
             t => setPageInfo(t),
-        [page, pageSize, isbn, reader_id]);
+        [page, pageSize, isbn, readerId, notReturned]);
 
     return <Box>
         <Box sx={{display: "flex", p: 3, gap: 3, alignItems: "center"}}>
@@ -65,11 +67,12 @@ const Operations = () => {
                 id="reader_id_field"
                 style={{width: "15rem"}}
                 freeSolo
-                inputValue={reader_id}
+                inputValue={readerId}
                 onInputChange={(e, v) => setReaderId(v)}
                 options={[]}
                 renderInput={(params) => <TextField {...params} label="№ читательского билета" />}
             />
+            <FormControlLabel control={<Checkbox defaultChecked checked={notReturned} onChange={v => setNotReturned(v.target.checked)} />} label="Не возвращенго" />
         </Box>
         <DataGrid
             paginationMode="server"

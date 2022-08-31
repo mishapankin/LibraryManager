@@ -5,8 +5,8 @@ import {useFetch} from "../hooks.js";
 import {useState} from "react";
 
 const headers = [
-    { field: "id", headerName: "№ экземпляра", flex: 1, align: "center", headerAlign: "center"},
-    { field: "isReturned", headerName: "Статус", flex: 1, align: "center", headerAlign: "center",
+    { field: "id", headerName: "№ экземпляра", flex: 1, align: "center", headerAlign: "center", sortable: false},
+    { field: "isReturned", headerName: "Статус", flex: 1, align: "center", headerAlign: "center", sortable: false,
         renderCell: (v) => (v.value?
             <Chip label="В библиотеке" color="success" size="small"/> :
             <Chip label="У читателя" color="warning" size="small"/>)
@@ -28,7 +28,7 @@ const BookInstances = () => {
             rows={ids}
             density="compact"
             sx={{height: "80vh"}}
-            disableColumnFilter
+            disableColumnMenu
         />
     </Box>
 };

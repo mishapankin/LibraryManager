@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 
 public interface BookRepository extends JpaRepository<Book, Long> {
-    @Query("select new mmp.librarymanager.dto.BookDTO(b.isbn, b.title, a.name, p.name, b.bookInstanceList.size) " +
+    @Query("select new mmp.librarymanager.dto.BookDTO(b.isbn, b.title, a.name, p.name, b.bookInstances.size) " +
             "from Book b join b.author a join b.publisher p where " +
             "is_same(:author, a.name)=1 and " +
             "is_same(:title, b.title)=1 and " +

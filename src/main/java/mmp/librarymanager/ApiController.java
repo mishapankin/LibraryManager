@@ -74,6 +74,7 @@ public class ApiController {
                 title,
                 reader_id,
                 reader_name,
-                book_instance_id, p);
+                book_instance_id,
+                not_returned, p);
     }
 }
