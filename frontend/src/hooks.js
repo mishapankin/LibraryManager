@@ -1,8 +1,8 @@
 import {useEffect} from "react";
 
-const useFetch = (url, args, onload, deps) => {
+const useFetch = (url, getArgs, args, onload, deps) => {
     useEffect(() => {
-            fetch(url, args)
+            fetch(url + new URLSearchParams(getArgs), args)
                 .then(data => data.json())
                 .then(data => onload(data))
         },

@@ -38,8 +38,8 @@ const Books = () => {
 
     const [newReader, setNewReader] = useState({name: "", address: ""});
 
-    useFetch("/api/get/readers?" +
-        new URLSearchParams({id: id, name: name}),
+    useFetch("/api/get/readers?",
+        {id: id, name: name},
         {}, (res) => setData(res.map(createData)), [id, name, dialogOpened]);
 
     return (

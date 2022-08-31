@@ -22,8 +22,8 @@ const Books = () => {
 
     const navigate = useNavigate();
 
-    useFetch("/api/get/book_info?" +
-        new URLSearchParams({author: authorName, title: title, isbn: isbn}),
+    useFetch("/api/get/book_info?",
+        {author: authorName, title: title, isbn: isbn},
         {}, (res) => setData(res), [authorName, title, isbn]);
 
     return (

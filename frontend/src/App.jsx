@@ -4,6 +4,7 @@ import Sidebar from "./components/Sidebar.jsx";
 import {Route, Routes} from "react-router-dom";
 import Readers from "./components/Readers";
 import BookInstances from "./components/BookInstances.jsx";
+import Operations from "./components/Operations.jsx";
 
 const App = () => {
     return (
@@ -16,6 +17,7 @@ const App = () => {
                     <Route path="/books" element={<Books/>}/>
                     <Route path="/readers" element={<Readers/>}/>
                     <Route path="/book_instances/:isbn" element={<BookInstances/>}/>
+                    <Route path="/operations" element={<Operations/>}/>
                 </Routes>
             </Box>
         </Box>

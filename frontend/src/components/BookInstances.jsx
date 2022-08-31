@@ -17,7 +17,7 @@ const BookInstances = () => {
     const { isbn } = useParams();
     const [ids, setIds] = useState([]);
 
-    useFetch("/api/get/book_instances?" + new URLSearchParams({"isbn": isbn}), {}, res => setIds(res), [isbn]);
+    useFetch("/api/get/book_instances?",{"isbn": isbn}, {}, res => setIds(res), [isbn]);
 
     return <Box>
         <Box sx={{marginBottom: 3}}>

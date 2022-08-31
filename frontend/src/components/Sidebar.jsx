@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 const pages = [
     {name: "Книги", icon: <MenuBook/>, route: "/books"},
     {name: "Читатели", icon: <People/>, route: "/readers"},
-    {name: "Операции", icon: <CalendarMonth/>, route: "/operataions"},
+    {name: "Операции", icon: <CalendarMonth/>, route: "/operations"},
 ];
 
 const Sidebar = () => {
