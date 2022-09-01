@@ -24,7 +24,7 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
                 "((cast(o.reader.id as text) || '!') like (:reader_id || '%')) and " +
                 "is_same(:reader_name, o.reader.name)=1 and " +
                 "((cast(o.bookInstance.id as text) || '!') like (:book_instance_id || '%')) and " +
-                "((:not_returned = FALSE) or (o.returnDate is null))")
+                "((:not_returned = FALSE) or (o.returnDate is null)) order by o.date DESC")
     Page<OperationDTO> getFiltered(String isbn,
                                    String title,
                                    String reader_id,

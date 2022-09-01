@@ -2,37 +2,40 @@ import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} fr
 import {postRequest} from "../hooks.js";
 import {useState} from "react";
 
-const ReaderDialog = ( {isOpen, setIsOpen, onEnd } ) => {
-    const [newReader, setNewReader] = useState({name: "", address: ""});
+const OperationDialog = ( {isOpen, setIsOpen, onEnd } ) => {
+    const [newOperation, setNewOperation] = useState({
+        reader_id: "",
+        book_instance_id: ""
+    });
 
-    const createNewUser = () =>
-        postRequest("/api/post/reader", newReader).then(() => {setIsOpen(false); onEnd()});
+    const postNewOperation = () =>
+        postRequest("/api/post/operation", newOperation).then(() => {setIsOpen(false); onEnd()});
 
     return <Dialog open={isOpen}>
-        <DialogTitle>Добавить нового читателя</DialogTitle>
+        <DialogTitle>Взятие книги</DialogTitle>
         <DialogContent sx={{display: "flex", gap: 3, flexDirection: "column"}}>
             <TextField
                 autoFocus
                 id="new_reader_name"
-                label="ФИО"
+                label="№ читательского билета"
                 margin="dense"
-                value={newReader.name}
-                onChange={e => setNewReader({ ...newReader, name: e.target.value})}
+                value={newOperation.reader_id}
+                onChange={e => setNewOperation({ ...newOperation, reader_id: e.target.value})}
                 required
             />
             <TextField
                 autoFocus
                 id="new_reader_address"
-                label="Адрес"
+                label="№ экземпляра"
                 margin="dense"
-                value={newReader.address}
-                onChange={e => setNewReader({ ...newReader, address: e.target.value})}
+                value={newOperation.book_instance_id}
+                onChange={e => setNewOperation({ ...newOperation, book_instance_id: e.target.value})}
                 required
             />
         </DialogContent>
         <DialogActions sx={{display: "flex", justifyContent: "space-evenly", paddingBottom: 3}}>
             <Button onClick={() => setIsOpen(false)}>Отменить</Button>
-            <Button onClick={createNewUser}
+            <Button onClick={postNewOperation}
                     variant="contained">
                 Добавить
             </Button>
@@ -40,4 +43,4 @@ const ReaderDialog = ( {isOpen, setIsOpen, onEnd } ) => {
     </Dialog>;
 };
 
-export default ReaderDialog;
+export default OperationDialog;

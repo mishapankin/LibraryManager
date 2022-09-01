@@ -3,19 +3,23 @@ package mmp.librarymanager;
 import mmp.librarymanager.dto.BookDTO;
 import mmp.librarymanager.dto.BookInstanceDTO;
 import mmp.librarymanager.dto.OperationDTO;
+import mmp.librarymanager.dto.OperationPostDTO;
+import mmp.librarymanager.entities.Operation;
 import mmp.librarymanager.repositories.*;
 import mmp.librarymanager.entities.Reader;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
 public class ApiController {
+
     @Autowired
     private AuthorRepository authorRepository;
     @Autowired
@@ -76,5 +80,23 @@ public class ApiController {
                 reader_name,
                 book_instance_id,
                 not_returned, p);
+    }
+
+    @PostMapping("/api/post/operation")
+    public String postOperation(@RequestBody OperationPostDTO body) {
+        // TODO: add data validation
+
+        Date today = new Date();
+
+        final int OPERATION_DAYS = 14;
+        Operation op = new Operation(
+                bookInstanceRepository.getReferenceById(body.book_instance_id()),
+                readerRepository.getReferenceById(body.reader_id()),
+                today,
+                DateUtils.addDays(today, OPERATION_DAYS)
+        );
+
+        operationRepository.save(op);
+        return "{}";
     }
 }

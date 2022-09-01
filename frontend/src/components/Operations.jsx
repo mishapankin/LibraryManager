@@ -1,9 +1,11 @@
-import {Autocomplete, Box, Checkbox, FormControlLabel, TextField} from "@mui/material";
+import {Autocomplete, Box, Button, Checkbox, FormControlLabel, TextField} from "@mui/material";
 import {useMemo, useState} from "react";
 import {useFetch} from "../hooks.js";
 import {DataGrid} from "@mui/x-data-grid";
 import {FilterAlt} from "@mui/icons-material";
 import {useParams} from "react-router-dom";
+import ReaderDialog from "./ReaderDialog.jsx";
+import OperationDialog from "./OperationDialog.jsx";
 
 const prettifyDate = (d) => {
     if (d.value) {
@@ -34,6 +36,15 @@ const Operations = () => {
     const [readerId, setReaderId] = useState(idInit? `${idInit}!` : "");
     const [bookInstanceId, setBookInstanceId] = useState(bookInstanceIdInit? `${bookInstanceIdInit}!` : "")
     const [notReturned, setNotReturned] = useState(false);
+
+    const onEnd = () => {
+        setIsbn("");
+        setReaderId("");
+        setBookInstanceId("");
+        setNotReturned(false);
+    };
+
+    const [dialogOpened, setDialogOpened] = useState(false);
 
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(15);
@@ -85,7 +96,8 @@ const Operations = () => {
                 options={[]}
                 renderInput={(params) => <TextField {...params} label="№ экземпляра" />}
             />
-            <FormControlLabel control={<Checkbox defaultChecked checked={notReturned} onChange={v => setNotReturned(v.target.checked)} />} label="Не возвращенго" />
+            <FormControlLabel control={<Checkbox checked={notReturned} onChange={v => setNotReturned(v.target.checked)} />} label="Не возвращенго" />
+            <Button variant="outlined" onClick={() => setDialogOpened(true)} sx={{marginLeft: "auto"}}>Новая операция</Button>
         </Box>
         <DataGrid
             paginationMode="server"
@@ -99,6 +111,9 @@ const Operations = () => {
             sx={{height: "80vh"}}
             disableColumnMenu
             rows={pageInfo.content}
+        />
+        <OperationDialog isOpen={dialogOpened} setIsOpen={setDialogOpened}
+                         onEnd={onEnd}
         />
     </Box>
 };

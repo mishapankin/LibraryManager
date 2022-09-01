@@ -30,9 +30,6 @@ const Books = () => {
 
     const [dialogOpened, setDialogOpened] = useState(false);
     const openDialog = () => setDialogOpened(true);
-    const closeDialog = () => setDialogOpened(false);
-
-    const [newReader, setNewReader] = useState({name: "", address: ""});
 
     const navigate = useNavigate();
 
@@ -72,8 +69,7 @@ const Books = () => {
                 disableColumnMenu
                 onRowClick={(p) => navigate(`/operations/id=${p.row.id}`)}
             />
-            <ReaderDialog newReader={newReader} setNewReader={setNewReader}
-                          isOpen={dialogOpened} setIsOpen={setDialogOpened}
+            <ReaderDialog isOpen={dialogOpened} setIsOpen={setDialogOpened}
                           onEnd={() => {setId(""); setName("")}}
             />
         </Box>

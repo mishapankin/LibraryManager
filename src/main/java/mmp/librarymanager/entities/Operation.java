@@ -35,8 +35,7 @@ public class Operation {
 
     public Operation() {}
 
-    public Operation(Long id, BookInstance bookInstance, Reader reader, Date date, Date dueDate) {
-        this.id = id;
+    public Operation(BookInstance bookInstance, Reader reader, Date date, Date dueDate) {
         this.bookInstance = bookInstance;
         this.reader = reader;
         this.date = date;
