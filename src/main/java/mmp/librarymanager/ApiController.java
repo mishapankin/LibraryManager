@@ -1,9 +1,6 @@
 package mmp.librarymanager;
 
-import mmp.librarymanager.dto.BookDTO;
-import mmp.librarymanager.dto.BookInstanceDTO;
-import mmp.librarymanager.dto.OperationDTO;
-import mmp.librarymanager.dto.OperationPostDTO;
+import mmp.librarymanager.dto.*;
 import mmp.librarymanager.entities.Operation;
 import mmp.librarymanager.repositories.*;
 import mmp.librarymanager.entities.Reader;
@@ -43,6 +40,19 @@ public class ApiController {
         return bookRepository.getBookInfo(author, title, isbn);
     }
 
+    @GetMapping("/api/get/book_instances/by_id")
+    public Iterable<BookReducedInstanceDTO> getBookInstancesReduced(@RequestParam Long id) {
+        return bookInstanceRepository.getReducedInfoById(id);
+    }
+
+    private record IsAvailable(boolean is_available) {}
+    @GetMapping("/api/get/book_instance_available")
+    public IsAvailable getBookInstanceAvailable(@RequestParam Long id) {
+        return new IsAvailable(
+                operationRepository.getNotReturnedByInstanceId(id).size() != 1
+        );
+    }
+
     @GetMapping("/api/get/book_instances")
     public Iterable<BookInstanceDTO> getBookInstances(@RequestParam String isbn) {
         Set<Long> all = bookInstanceRepository.findByBookISBN(isbn);
@@ -51,6 +61,11 @@ public class ApiController {
         return all.stream()
                 .map(v -> new BookInstanceDTO(v, !notEnded.contains(v)))
                 .collect(Collectors.toSet());
+    }
+
+    @GetMapping("/api/get/reader/by_id")
+    public Iterable<String> getReadersById(@RequestParam Long id) {
+        return readerRepository.getNamesById(id);
     }
 
     @GetMapping("/api/get/readers")

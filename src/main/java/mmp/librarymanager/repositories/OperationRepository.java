@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Set;
 
 public interface OperationRepository extends JpaRepository<Operation, Long> {
@@ -32,4 +33,7 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
                                    String book_instance_id,
                                    boolean not_returned,
                                    Pageable p);
+
+    @Query("select o.id from Operation o where o.bookInstance.id = :id and o.returnDate is null")
+    List<Long> getNotReturnedByInstanceId(Long id);
 }
