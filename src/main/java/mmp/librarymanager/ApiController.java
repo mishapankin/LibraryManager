@@ -13,10 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -64,6 +61,14 @@ public class ApiController {
     @GetMapping("/get/publishers")
     public Iterable<String> getPublishers() {
         return publisherRepository.getPublishers();
+    }
+
+    @GetMapping("/get/reader_names")
+    public Iterable<String> getReaderNames() { return readerRepository.getReaderNames(); }
+
+    @GetMapping("/get/reader_ids")
+    public List<String> getReaderIds() {
+        return readerRepository.getReaderIds().stream().map(Object::toString).collect(Collectors.toList());
     }
 
     @GetMapping("/get/book_instances/by_id")
@@ -121,6 +126,24 @@ public class ApiController {
         if (nameErr || addressErr || phoneErr || emailErr) {
             return new ResponseEntity<>(new PostReaderError(nameErr, addressErr, phoneErr, emailErr),
                 HttpStatus.BAD_REQUEST
+            );
+        }
+
+        readerRepository.save(reader);
+        return new ResponseEntity<>(reader, HttpStatus.OK);
+    }
+
+    @PostMapping("/update/reader")
+    public ResponseEntity<Object> updateReader(@RequestBody Reader reader) {
+        reader.trimFields();
+        boolean nameErr = !reader.isNameValid();
+        boolean addressErr = !reader.isAddressValid();
+        boolean phoneErr = !reader.isPhoneValid();
+        boolean emailErr = !reader.isEmailValid();
+
+        if (nameErr || addressErr || phoneErr || emailErr) {
+            return new ResponseEntity<>(new PostReaderError(nameErr, addressErr, phoneErr, emailErr),
+                    HttpStatus.BAD_REQUEST
             );
         }
 
