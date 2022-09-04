@@ -11,7 +11,7 @@ const App = () => {
         <Box display="flex">
             <Sidebar/>
             <Box component="main"
-                sx={{ flexGrow: 1, bgcolor: 'background.default', p:3 }}>
+                sx={{ flexGrow: 1, bgcolor: 'background.default', p:2 }}>
                 <Routes>
                     <Route path="/" element={<Books/>}/>
                     <Route path="/books" element={<Books/>}/>

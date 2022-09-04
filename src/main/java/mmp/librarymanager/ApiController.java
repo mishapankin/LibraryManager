@@ -9,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -106,12 +109,22 @@ public class ApiController {
         return readerRepository.getFiltered(name, id, p);
     }
 
+    private record PostReaderError(boolean name, boolean address, boolean phone, boolean email) {}
     @PostMapping("/post/reader")
-    public Reader postReader(@RequestBody Reader reader) {
-        // TODO: add data validation
+    public ResponseEntity<Object> postReader(@RequestBody Reader reader) {
+        boolean nameErr = reader.getName().equals("");
+        boolean addressErr = false;
+        boolean phoneErr = false;
+        boolean emailErr = false;
+
+        if (nameErr || addressErr || phoneErr || emailErr) {
+            return new ResponseEntity<>(new PostReaderError(nameErr, addressErr, phoneErr, emailErr),
+                HttpStatus.BAD_REQUEST
+            );
+        }
 
         readerRepository.save(reader);
-        return reader;
+        return new ResponseEntity<>(reader, HttpStatus.OK);
     }
 
     @GetMapping("/get/operations")

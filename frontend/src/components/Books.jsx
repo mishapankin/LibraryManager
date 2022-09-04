@@ -48,8 +48,8 @@ const Books = () => {
 
     return (
         <Box>
-            <Box sx={{display: "flex", p: 3, gap: 3, alignItems: "center"}}>
-                <FilterAlt/>
+            <Box sx={{display: "flex", p: 2, gap: 3}}>
+                <FilterAlt sx={{alignSelf: "center"}}/>
                 <Autocomplete
                     id="title_field"
                     style={{width: "15rem"}}
@@ -90,7 +90,7 @@ const Books = () => {
                 rowsPerPageOptions={[15]}
                 rowCount={data.totalElements}
                 onRowClick={(p) => navigate(`/book_instances/${p.row.id}`)}
-                sx={{height: "80vh"}}
+                autoHeight
                 disableColumnMenu
             />
         </Box>

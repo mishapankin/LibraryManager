@@ -12,8 +12,8 @@ import ReaderDialog from "./ReaderDialog.jsx";
 import {useNavigate} from "react-router-dom";
 
 const headers = [
-    {field: "id", headerName: "№ читательского билета", flex: 1, sortable: false},
-    {field: "name", headerName: "ФИО", flex: 5, sortable: false},
+    {field: "id", headerName: "№ ЧБ", flex: 2, sortable: false},
+    {field: "name", headerName: "ФИО", flex: 6, sortable: false},
     {field: "address", headerName: "Адрес", flex: 5, sortable: false},
     {field: "email", headerName: "E-mail", flex: 5, sortable: false},
     {field: "phone", headerName: "№ телефона", flex: 5, sortable: false},
@@ -47,8 +47,8 @@ const Books = () => {
 
     return (
         <Box>
-            <Box sx={{display: "flex", p: 3, gap: 3, alignItems: "center"}}>
-                <FilterAlt/>
+            <Box sx={{display: "flex", p: 2, gap: 3}}>
+                <FilterAlt sx={{alignSelf: "center"}}/>
                 <Autocomplete
                     id="id_field"
                     style={{width: "15rem"}}
@@ -79,13 +79,13 @@ const Books = () => {
                 onPageSizeChange={(p) => setPageSize(p)}
                 rowsPerPageOptions={[15]}
                 rowCount={data.totalElements}
-                sx={{height: "80vh"}}
+                autoHeight
                 density="compact"
                 disableColumnMenu
                 onRowClick={(p) => navigate(`/operations/id=${p.row.id}`)}
             />
             <ReaderDialog isOpen={dialogOpened} setIsOpen={setDialogOpened}
-                          onEnd={() => {setId(""); setName("")}}
+                          onEnd={() => {setId(""); setName(""); setPage(0)}}
             />
         </Box>
     );

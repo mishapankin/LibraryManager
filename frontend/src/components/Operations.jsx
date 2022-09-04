@@ -77,8 +77,8 @@ const Operations = () => {
         [page, pageSize, isbn, readerId, notReturned, bookInstanceId, rerenderVal]);
 
     return <Box>
-        <Box sx={{display: "flex", p: 3, gap: 3, alignItems: "center"}}>
-            <FilterAlt/>
+        <Box sx={{display: "flex", p: 2, gap: 3, alignItems: "center"}}>
+            <FilterAlt sx={{alignSelf: "center"}}/>
             <Autocomplete
                 id="isbn_field"
                 style={{width: "15rem"}}
@@ -118,7 +118,7 @@ const Operations = () => {
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             columns={headers}
             rowCount={pageInfo.totalElements}
-            sx={{height: "80vh"}}
+            autoHeight
             disableColumnMenu
             rowsPerPageOptions={[15]}
             rows={pageInfo.content}

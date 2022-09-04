@@ -3,10 +3,13 @@ import {postRequest} from "../hooks.js";
 import {useState} from "react";
 
 const ReaderDialog = ( {isOpen, setIsOpen, onEnd } ) => {
-    const [newReader, setNewReader] = useState({name: "", address: ""});
+    const [newReader, setNewReader] = useState({name: "", address: "", phone: "", email: ""});
+
+    const [error, setError] = useState(false);
 
     const createNewUser = () =>
-        postRequest("/api/post/reader", newReader).then(() => {setIsOpen(false); onEnd()});
+        postRequest("/api/post/reader", newReader)
+            .then(() => {setIsOpen(false); onEnd()});
 
     return <Dialog open={isOpen}>
         <DialogTitle>Добавить нового читателя</DialogTitle>
@@ -19,6 +22,7 @@ const ReaderDialog = ( {isOpen, setIsOpen, onEnd } ) => {
                 value={newReader.name}
                 onChange={e => setNewReader({ ...newReader, name: e.target.value})}
                 required
+                error={true}
             />
             <TextField
                 autoFocus
@@ -27,7 +31,27 @@ const ReaderDialog = ( {isOpen, setIsOpen, onEnd } ) => {
                 margin="dense"
                 value={newReader.address}
                 onChange={e => setNewReader({ ...newReader, address: e.target.value})}
-                required
+                error={true}
+            />
+            <TextField
+                autoFocus
+                id="new_reader_email"
+                label="E-mail"
+                margin="dense"
+                type="email"
+                value={newReader.email}
+                onChange={e => setNewReader({ ...newReader, email: e.target.value})}
+                error={true}
+            />
+            <TextField
+                autoFocus
+                id="new_reader_phone"
+                label="Номер телефона"
+                margin="dense"
+                type="tel"
+                value={newReader.phone}
+                onChange={e => setNewReader({ ...newReader, phone: e.target.value})}
+                error={true}
             />
         </DialogContent>
         <DialogActions sx={{display: "flex", justifyContent: "space-evenly", paddingBottom: 3}}>

@@ -17,7 +17,7 @@ public class Reader {
     @Column(name="name", nullable = false)
     private String name;
 
-    @Column(name="address", nullable = false)
+    @Column(name="address")
     private String address;
 
     @Column(name = "email")
