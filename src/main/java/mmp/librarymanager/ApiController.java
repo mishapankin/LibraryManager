@@ -99,6 +99,12 @@ public class ApiController {
         return readerRepository.getNamesById(id);
     }
 
+    @DeleteMapping("/delete/reader/by_id")
+    public String deleteReaderById(@RequestParam Long id) {
+        readerRepository.deleteById(id);
+        return "{}";
+    }
+
     @GetMapping("/get/readers")
     public Page<Reader> getReaders(@RequestParam String name,
                                        @RequestParam String id,

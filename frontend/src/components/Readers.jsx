@@ -1,6 +1,6 @@
 import {useMemo, useState} from "react";
 import {postRequest, useFetch} from "../hooks.js";
-import {Edit, FilterAlt} from "@mui/icons-material";
+import {Delete, Edit, FilterAlt} from "@mui/icons-material";
 import {
     Autocomplete,
     TextField,
@@ -33,6 +33,7 @@ const Readers = () => {
     const [ids, setIds] = useState([]);
 
     const [reader, setReader] = useState({name: "", address: "", phone: "", email: ""});
+    const [rerender, setRerender] = useState({});
 
     const navigate = useNavigate();
 
@@ -47,10 +48,10 @@ const Readers = () => {
 
     useFetch("/api/get/readers?",
         queryOptions,
-        {}, (res) => setData(res), [id, name, dialogOpened, page, pageSize]);
+        {}, (res) => setData(res), [id, name, dialogOpened, page, pageSize, rerender]);
 
-    useFetch("/api/get/reader_ids", {}, {}, (r) => setIds(r), []);
-    useFetch("/api/get/reader_names", {}, {}, (r) => setReaders(r), []);
+    useFetch("/api/get/reader_ids", {}, {}, (r) => setIds(r), [rerender]);
+    useFetch("/api/get/reader_names", {}, {}, (r) => setReaders(r), [rerender]);
 
     const headers = [
         {field: "id", headerName: "№ ЧБ", flex: 2, sortable: false},
@@ -59,6 +60,7 @@ const Readers = () => {
         {field: "email", headerName: "E-mail", flex: 5, sortable: false},
         {field: "phone", headerName: "№ телефона", flex: 5, sortable: false},
         {field: "edit", headerName: "", flex: 1, sortable: false, renderCell: () => <Edit/>},
+        {field: "delete", headerName: "", flex: 1, sortable: false, renderCell: () => <Delete/>},
     ];
 
     return (
@@ -99,12 +101,19 @@ const Readers = () => {
                 density="compact"
                 disableColumnMenu
                 onCellClick={(c) => {
-                    if (c.field !== "edit") {
-                        navigate(`/operations/id=${c.id}`);
-                    } else {
-                        setUpdateId(c.id);
-                        setReader(c.row);
-                        openUpdate();
+                    switch (c.field) {
+                        case "edit":
+                            setUpdateId(c.id);
+                            setReader(c.row);
+                            openUpdate();
+                            break;
+                        case "delete":
+                            fetch("/api/delete/reader/by_id?" + new URLSearchParams({id: c.id}),
+                                {method: "DELETE", headers: {'Content-Type': 'application/json'}})
+                                .then(() => {setRerender({})});
+                            break;
+                        default:
+                            navigate(`/operations/id=${c.id}`);
                     }
                 }}
             />
