@@ -92,8 +92,18 @@ public class ApiController {
     }
 
     @GetMapping("/get/readers")
-    public Iterable<Reader> getReaders(@RequestParam String name, @RequestParam String id) {
-        return readerRepository.getFiltered(name, id);
+    public Page<Reader> getReaders(@RequestParam String name,
+                                       @RequestParam String id,
+                                       @RequestParam int page,
+                                       @RequestParam int pageSize) {
+        if (page < 0) {
+            page = 1;
+        }
+        if (pageSize <= 0) {
+            pageSize = 1;
+        }
+        Pageable p = PageRequest.of(page, pageSize);
+        return readerRepository.getFiltered(name, id, p);
     }
 
     @PostMapping("/post/reader")
@@ -113,6 +123,12 @@ public class ApiController {
                                                 @RequestParam String reader_name,
                                                 @RequestParam String book_instance_id,
                                                 @RequestParam boolean not_returned) {
+        if (page < 0) {
+            page = 1;
+        }
+        if (pageSize <= 0) {
+            pageSize = 1;
+        }
         Pageable p = PageRequest.of(page, pageSize);
         return operationRepository.getFiltered(isbn,
                 title,

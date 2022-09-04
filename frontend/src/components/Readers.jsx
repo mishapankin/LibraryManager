@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import {postRequest, useFetch} from "../hooks.js";
 import { FilterAlt } from "@mui/icons-material";
 import {
@@ -20,18 +20,30 @@ const headers = [
 ];
 
 const Books = () => {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({content: [], totalSize: 0});
     const [id, setId] = useState("");
     const [name, setName] = useState("");
 
     const [dialogOpened, setDialogOpened] = useState(false);
     const openDialog = () => setDialogOpened(true);
 
+    const [page, setPage] = useState(0);
+    const [pageSize, setPageSize] = useState(15);
+
     const navigate = useNavigate();
 
+    const queryOptions = useMemo(
+        () => ({
+            id: id,
+            name: name,
+            page: page,
+            pageSize: pageSize,
+        }), [id, name, page, pageSize]
+    );
+
     useFetch("/api/get/readers?",
-        {id: id, name: name},
-        {}, (res) => setData(res), [id, name, dialogOpened]);
+        queryOptions,
+        {}, (res) => setData(res), [id, name, dialogOpened, page, pageSize]);
 
     return (
         <Box>
@@ -58,8 +70,15 @@ const Books = () => {
                 <Button variant="outlined" onClick={openDialog} sx={{marginLeft: "auto"}}>Добавить читателя</Button>
             </Box>
             <DataGrid
+                paginationMode="server"
                 columns={headers}
-                rows={data}
+                rows={data.content}
+                page={page}
+                pageSize={pageSize}
+                onPageChange={(p) => setPage(p)}
+                onPageSizeChange={(p) => setPageSize(p)}
+                rowsPerPageOptions={[15]}
+                rowCount={data.totalElements}
                 sx={{height: "80vh"}}
                 density="compact"
                 disableColumnMenu
