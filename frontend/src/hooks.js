@@ -15,8 +15,12 @@ const postBodyDefault = {
     headers: {'Content-Type': 'application/json'}
 };
 
-const postRequest = (url, body) =>
-    fetch(url, {...postBodyDefault, body: JSON.stringify(body)})
-        .then(res => res.json());
+const postRequest = (url, body, onload) => {
+    (async () => {
+        let res = await fetch(url, {...postBodyDefault, body: JSON.stringify(body)});
+        let parsed = await res.json();
+        onload(parsed, res.status);
+    })();
+}
 
 export { useFetch, postRequest };

@@ -38,7 +38,7 @@ const Operations = () => {
 
     const returnBook = (id) => {
         console.log(id);
-        postRequest("/api/update/operation", {id: id}).then(rerender);
+        postRequest("/api/update/operation", {id: id}, rerender);
     };
 
     const prettifyDate = (d) => {
@@ -69,6 +69,8 @@ const Operations = () => {
         setReaderId("");
         setBookInstanceId("");
         setNotReturned(false);
+        setPage(0);
+        rerender();
     };
     
 

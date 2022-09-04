@@ -5,11 +5,17 @@ import {useState} from "react";
 const ReaderDialog = ( {isOpen, setIsOpen, onEnd } ) => {
     const [newReader, setNewReader] = useState({name: "", address: "", phone: "", email: ""});
 
-    const [error, setError] = useState(false);
+    const [error, setError] = useState({name: false, address: false, phone: false, email: false});
 
     const createNewUser = () =>
-        postRequest("/api/post/reader", newReader)
-            .then(() => {setIsOpen(false); onEnd()});
+        postRequest("/api/post/reader", newReader,
+            (parsed, status) => {
+                if (status !== 200) {
+                    setError(parsed);
+                } else {
+                    setIsOpen(false); onEnd()
+                }
+        });
 
     return <Dialog open={isOpen}>
         <DialogTitle>Добавить нового читателя</DialogTitle>
@@ -22,7 +28,7 @@ const ReaderDialog = ( {isOpen, setIsOpen, onEnd } ) => {
                 value={newReader.name}
                 onChange={e => setNewReader({ ...newReader, name: e.target.value})}
                 required
-                error={true}
+                error={error.name}
             />
             <TextField
                 autoFocus
@@ -31,7 +37,7 @@ const ReaderDialog = ( {isOpen, setIsOpen, onEnd } ) => {
                 margin="dense"
                 value={newReader.address}
                 onChange={e => setNewReader({ ...newReader, address: e.target.value})}
-                error={true}
+                error={error.address}
             />
             <TextField
                 autoFocus
@@ -41,7 +47,7 @@ const ReaderDialog = ( {isOpen, setIsOpen, onEnd } ) => {
                 type="email"
                 value={newReader.email}
                 onChange={e => setNewReader({ ...newReader, email: e.target.value})}
-                error={true}
+                error={error.email}
             />
             <TextField
                 autoFocus
@@ -51,7 +57,7 @@ const ReaderDialog = ( {isOpen, setIsOpen, onEnd } ) => {
                 type="tel"
                 value={newReader.phone}
                 onChange={e => setNewReader({ ...newReader, phone: e.target.value})}
-                error={true}
+                error={error.phone}
             />
         </DialogContent>
         <DialogActions sx={{display: "flex", justifyContent: "space-evenly", paddingBottom: 3}}>

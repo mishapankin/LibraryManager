@@ -3,6 +3,7 @@ package mmp.librarymanager.entities;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.regex.Pattern;
 
 @Entity
 @Table(name = "reader")
@@ -33,5 +34,28 @@ public class Reader {
         this.address = address;
         this.email = email;
         this.phone = phone;
+    }
+
+    public void trimFields() {
+        name = name.trim();
+        address = address.trim();
+        email = email.trim();
+        phone = phone.trim();
+    }
+
+    public boolean isNameValid() {
+        return !name.equals("");
+    }
+
+    public boolean isEmailValid() {
+        return email.equals("") || Pattern.matches("\\w+@\\w+\\.\\w+", email);
+    }
+
+    public boolean isAddressValid() {
+        return true;
+    }
+
+    public boolean isPhoneValid() {
+        return phone.equals("") || Pattern.matches("\\+\\d{11,13}", phone);
     }
 }

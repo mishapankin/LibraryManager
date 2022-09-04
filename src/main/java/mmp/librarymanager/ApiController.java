@@ -112,10 +112,11 @@ public class ApiController {
     private record PostReaderError(boolean name, boolean address, boolean phone, boolean email) {}
     @PostMapping("/post/reader")
     public ResponseEntity<Object> postReader(@RequestBody Reader reader) {
-        boolean nameErr = reader.getName().equals("");
-        boolean addressErr = false;
-        boolean phoneErr = false;
-        boolean emailErr = false;
+        reader.trimFields();
+        boolean nameErr = !reader.isNameValid();
+        boolean addressErr = !reader.isAddressValid();
+        boolean phoneErr = !reader.isPhoneValid();
+        boolean emailErr = !reader.isEmailValid();
 
         if (nameErr || addressErr || phoneErr || emailErr) {
             return new ResponseEntity<>(new PostReaderError(nameErr, addressErr, phoneErr, emailErr),

@@ -24,6 +24,7 @@ const BookInstances = () => {
     return <Box>
         <Box sx={{marginBottom: 3}}>
             <Typography variant="h3">ISBN: {isbn}</Typography>
+            <Typography variant="h4">Всего: {ids.length} Доступно: {ids.filter((v) => v.isReturned).length}</Typography>
         </Box>
         <DataGrid
             columns={headers}

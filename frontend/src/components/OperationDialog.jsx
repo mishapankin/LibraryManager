@@ -20,7 +20,8 @@ const OperationDialog = ( {isOpen, setIsOpen, onEnd } ) => {
         [newOperation.book_instance_id]); 
 
     const postNewOperation = () =>
-        postRequest("/api/post/operation", newOperation).then(() => {setIsOpen(false); onEnd()});
+        postRequest("/api/post/operation", newOperation,
+            () => {setIsOpen(false); onEnd()});
 
     return <Dialog open={isOpen}>
         <DialogTitle>Взятие книги</DialogTitle>
