@@ -2,6 +2,8 @@ package mmp.librarymanager.repositories;
 
 import mmp.librarymanager.dto.BookDTO;
 import mmp.librarymanager.entities.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -12,5 +14,11 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             "is_same(:author, a.name)=1 and " +
             "is_same(:title, b.title)=1 and " +
             "(b.isbn like (:isbn || '%'))")
-    Iterable<BookDTO> getBookInfo(String author, String title, String isbn);
+    Page<BookDTO> getBookInfo(String author, String title, String isbn, Pageable p);
+
+    @Query("select distinct b.isbn from Book b")
+    Iterable<String> getIsbns();
+
+    @Query("select distinct b.title from Book b")
+    Iterable<String> getTitles();
 }

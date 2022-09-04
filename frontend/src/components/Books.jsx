@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import {useFetch} from "../hooks.js";
 import { FilterAlt } from "@mui/icons-material";
 import {Autocomplete, TextField, Box} from "@mui/material";
@@ -14,16 +14,37 @@ const headers = [
 ];
 
 const Books = () => {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({content: [], totalElements: 0});
     const [authorName, setAuthorName] = useState("");
     const [title, setTitle] = useState("");
     const [isbn, setISBN] = useState("");
 
+    const [authors, setAuthors] = useState([]);
+    const [isbns, setIsbns] = useState([]);
+    const [titles, setTitles] = useState([]);
+
+    const [page, setPage] = useState(0);
+    const [pageSize, setPageSize] = useState(15);
+
     const navigate = useNavigate();
 
+    const queryOptions = useMemo(
+        () => ({
+            author: authorName,
+            title: title,
+            isbn: isbn,
+            page: page,
+            pageSize: pageSize,
+        }), [authorName, title, isbn, page, pageSize]
+    )
+
     useFetch("/api/get/book_info?",
-        {author: authorName, title: title, isbn: isbn},
-        {}, (res) => setData(res), [authorName, title, isbn]);
+        queryOptions, {},
+        (res) => setData(res), [authorName, title, isbn, page, pageSize]);
+
+    useFetch("/api/get/titles", {}, {}, res => setTitles(res), []);
+    useFetch("/api/get/isbns", {}, {}, res => setIsbns(res), []);
+    useFetch("/api/get/authors", {}, {}, res => setAuthors(res), []);
 
     return (
         <Box>
@@ -35,7 +56,7 @@ const Books = () => {
                     freeSolo
                     inputValue={title}
                     onInputChange={(e, v) => setTitle(v)}
-                    options={data.map(v => v.title)}
+                    options={titles}
                     renderInput={(params) => <TextField {...params} label="Название" />}
                 />
                 <Autocomplete
@@ -44,7 +65,7 @@ const Books = () => {
                     freeSolo
                     inputValue={authorName}
                     onInputChange={(e, v) => setAuthorName(v)}
-                    options={[...new Set(data.map(v => v.author))]}
+                    options={authors}
                     renderInput={(params) => <TextField {...params} label="Автор" />}
                 />
                 <Autocomplete
@@ -53,14 +74,21 @@ const Books = () => {
                     freeSolo
                     inputValue={isbn}
                     onInputChange={(e, v) => setISBN(v)}
-                    options={data.map(v => v.id)}
+                    options={isbns}
                     renderInput={(params) => <TextField {...params} label="ISBN" />}
                 />
             </Box>
             <DataGrid
+                paginationMode="server"
                 columns={headers}
-                rows={data}
+                rows={data.content}
                 density="compact"
+                page={page}
+                pageSize={pageSize}
+                onPageChange={(p) => setPage(p)}
+                onPageSizeChange={(p) => setPageSize(p)}
+                rowsPerPageOptions={[15]}
+                rowCount={data.totalElements}
                 onRowClick={(p) => navigate(`/book_instances/${p.row.id}`)}
                 sx={{height: "80vh"}}
                 disableColumnMenu

@@ -1,48 +1,20 @@
 import {Autocomplete, Box, Button, Checkbox, FormControlLabel, TextField} from "@mui/material";
 import {useMemo, useState} from "react";
-import {useFetch} from "../hooks.js";
+import {postRequest, useFetch} from "../hooks.js";
 import {DataGrid} from "@mui/x-data-grid";
 import {FilterAlt} from "@mui/icons-material";
 import {useParams} from "react-router-dom";
-import ReaderDialog from "./ReaderDialog.jsx";
 import OperationDialog from "./OperationDialog.jsx";
-
-const prettifyDate = (d) => {
-    if (d.value) {
-        let v = new Date(d.value);
-        return v.toDateString();
-    } else {
-        return "-";
-    }
-}
-
-const headers = [
-    {field: "id", headerName: "№", flex: 1, sortable: false},
-    {field: "reader_id", headerName: "№ ЧБ", flex: 1, sortable: false},
-    {field: "book_instance_id", headerName: "№ ЭКЗ", flex: 1, sortable: false},
-    {field: "date", headerName: "Дата взятия", flex: 2, valueFormatter: prettifyDate, sortable: false},
-    {field: "dueDate", headerName: "До", flex: 2, valueFormatter: prettifyDate, sortable: false},
-    {field: "returnDate", headerName: "Дата возвращения", flex: 2, valueFormatter: prettifyDate, sortable: false},
-    {field: "name", headerName: "ФИО", flex: 3, sortable: false},
-    {field: "title", headerName: "Название", flex: 2, sortable: false},
-
-];
 
 const Operations = () => {
     const { idInit } = useParams();
     const { bookInstanceIdInit } = useParams();
 
+    const [rerenderVal, setRerenderVal] = useState();
     const [isbn, setIsbn] = useState("");
     const [readerId, setReaderId] = useState(idInit? `${idInit}!` : "");
     const [bookInstanceId, setBookInstanceId] = useState(bookInstanceIdInit? `${bookInstanceIdInit}!` : "")
     const [notReturned, setNotReturned] = useState(false);
-
-    const onEnd = () => {
-        setIsbn("");
-        setReaderId("");
-        setBookInstanceId("");
-        setNotReturned(false);
-    };
 
     const [dialogOpened, setDialogOpened] = useState(false);
 
@@ -62,9 +34,47 @@ const Operations = () => {
         [page, pageSize, isbn, readerId, notReturned, bookInstanceId],
     );
 
+    const rerender = () => setRerenderVal({});
+
+    const returnBook = (id) => {
+        console.log(id);
+        postRequest("/api/update/operation", {id: id}).then(rerender);
+    };
+
+    const prettifyDate = (d) => {
+        let v = new Date(d.value);
+        return v.toDateString();
+    }
+    
+    const renderReturnButton = (d) => {
+        if (d.value) {
+            return prettifyDate(d);
+        }
+        return <Button onClick={() => returnBook(d.id)}>Вернуть</Button>;
+    }
+
+    const headers = [
+        {field: "id", headerName: "№", flex: 1, sortable: false},
+        {field: "reader_id", headerName: "№ ЧБ", flex: 1, sortable: false},
+        {field: "book_instance_id", headerName: "№ ЭКЗ", flex: 1, sortable: false},
+        {field: "date", headerName: "Дата взятия", flex: 2, valueFormatter: prettifyDate, sortable: false},
+        {field: "dueDate", headerName: "До", flex: 2, valueFormatter: prettifyDate, sortable: false},
+        {field: "returnDate", headerName: "Дата возвращения", flex: 2, renderCell: renderReturnButton, sortable: false},
+        {field: "name", headerName: "ФИО", flex: 3, sortable: false},
+        {field: "title", headerName: "Название", flex: 2, sortable: false},
+    ];
+
+    const onEnd = () => {
+        setIsbn("");
+        setReaderId("");
+        setBookInstanceId("");
+        setNotReturned(false);
+    };
+    
+
     useFetch("/api/get/operations?", queryOptions, {},
             t => setPageInfo(t),
-        [page, pageSize, isbn, readerId, notReturned, bookInstanceId]);
+        [page, pageSize, isbn, readerId, notReturned, bookInstanceId, rerenderVal]);
 
     return <Box>
         <Box sx={{display: "flex", p: 3, gap: 3, alignItems: "center"}}>
@@ -110,6 +120,7 @@ const Operations = () => {
             rowCount={pageInfo.totalElements}
             sx={{height: "80vh"}}
             disableColumnMenu
+            rowsPerPageOptions={[15]}
             rows={pageInfo.content}
         />
         <OperationDialog isOpen={dialogOpened} setIsOpen={setDialogOpened}

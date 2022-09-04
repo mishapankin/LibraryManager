@@ -1,6 +1,7 @@
 package mmp.librarymanager.entities;
 
 import lombok.Getter;
+import lombok.Setter;
 import mmp.librarymanager.OperationType;
 
 import javax.persistence.*;
@@ -30,7 +31,8 @@ public class Operation {
     @Column(name="due_date", nullable = false)
     private Date dueDate;
 
-    @Column(name="return_date", nullable = true)
+    @Column(name="return_date")
+    @Setter
     private Date returnDate;
 
     public Operation() {}

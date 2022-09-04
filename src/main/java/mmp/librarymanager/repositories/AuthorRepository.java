@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface AuthorRepository extends JpaRepository<Author, Long> {
+    @Query("select distinct a.name from Author a")
+    Iterable<String> getAuthors();
 }
