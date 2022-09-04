@@ -2,11 +2,9 @@ package mmp.librarymanager.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import mmp.librarymanager.OperationType;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Table(name = "operation")
