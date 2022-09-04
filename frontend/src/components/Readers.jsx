@@ -32,6 +32,8 @@ const Readers = () => {
     const [readers, setReaders] = useState([]);
     const [ids, setIds] = useState([]);
 
+    const [reader, setReader] = useState({name: "", address: "", phone: "", email: ""});
+
     const navigate = useNavigate();
 
     const queryOptions = useMemo(
@@ -101,6 +103,7 @@ const Readers = () => {
                         navigate(`/operations/id=${c.id}`);
                     } else {
                         setUpdateId(c.id);
+                        setReader(c.row);
                         openUpdate();
                     }
                 }}
@@ -110,7 +113,7 @@ const Readers = () => {
             />
             <UpdateReaderDialog isOpen={updateOpened} setIsOpen={setUpdateOpened}
                                 onEnd={(id) => { setId(id + "!"); setName(""); setPage(0)}}
-                                id={updateId}
+                                id={updateId} reader={reader} setReader={setReader}
             />
         </Box>
     );

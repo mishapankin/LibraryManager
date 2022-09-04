@@ -2,9 +2,7 @@ import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Ty
 import {postRequest} from "../hooks.js";
 import {useState} from "react";
 
-const UpdateReaderDialog = ( {isOpen, setIsOpen, onEnd, id } ) => {
-    const [reader, setReader] = useState({name: "", address: "", phone: "", email: ""});
-
+const UpdateReaderDialog = ( {isOpen, setIsOpen, onEnd, id, reader, setReader } ) => {
     const [error, setError] = useState({name: false, address: false, phone: false, email: false});
 
     const updateUser = () =>
