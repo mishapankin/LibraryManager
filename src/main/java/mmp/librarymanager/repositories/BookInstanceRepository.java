@@ -10,7 +10,7 @@ import java.util.Set;
 public interface BookInstanceRepository extends JpaRepository<BookInstance, Long> {
     @Query("select b.id " +
             "from BookInstance b where " +
-            "b.book.isbn = ?1")
+            "b.book.isbn = :isbn")
     Set<Long> findByBookISBN(String isbn);
 
     @Query("select new mmp.librarymanager.dto.BookReducedInstanceDTO(b.book.author.name, " +

@@ -20,9 +20,18 @@ public class Reader {
     @Column(name="address", nullable = false)
     private String address;
 
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "phone")
+    private String phone;
+
     public Reader() {}
-    public Reader(String name, String address) {
+
+    public Reader(String name, String address, String email, String phone) {
         this.name = name;
         this.address = address;
+        this.email = email;
+        this.phone = phone;
     }
 }

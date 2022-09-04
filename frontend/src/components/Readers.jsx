@@ -15,13 +15,9 @@ const headers = [
     {field: "id", headerName: "№ читательского билета", flex: 1, sortable: false},
     {field: "name", headerName: "ФИО", flex: 5, sortable: false},
     {field: "address", headerName: "Адрес", flex: 5, sortable: false},
+    {field: "email", headerName: "E-mail", flex: 5, sortable: false},
+    {field: "phone", headerName: "№ телефона", flex: 5, sortable: false},
 ];
-
-const createData = (row) => ({
-    id: row.id,
-    name: row.name,
-    address: row.address,
-});
 
 const Books = () => {
     const [data, setData] = useState([]);
@@ -35,7 +31,7 @@ const Books = () => {
 
     useFetch("/api/get/readers?",
         {id: id, name: name},
-        {}, (res) => setData(res.map(createData)), [id, name, dialogOpened]);
+        {}, (res) => setData(res), [id, name, dialogOpened]);
 
     return (
         <Box>

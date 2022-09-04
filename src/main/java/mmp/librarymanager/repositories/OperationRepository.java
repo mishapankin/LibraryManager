@@ -12,7 +12,7 @@ import java.util.Set;
 
 public interface OperationRepository extends JpaRepository<Operation, Long> {
     @Query("select o.bookInstance.id from Operation o " +
-            "where o.returnDate is null and o.bookInstance.book.isbn = ?1")
+            "where o.returnDate is null and o.bookInstance.book.isbn = :isbn")
     Set<Long> getNotEndedByBookISBN(String isbn);
 
     @Query("select new mmp.librarymanager.dto.OperationDTO(" +
