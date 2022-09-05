@@ -123,6 +123,7 @@ public class ApiController {
     private record PostReaderError(boolean name, boolean address, boolean phone, boolean email) {}
     @PostMapping("/post/reader")
     public ResponseEntity<Object> postReader(@RequestBody Reader reader) {
+        reader.NullifyId();
         reader.trimFields();
         boolean nameErr = !reader.isNameValid();
         boolean addressErr = !reader.isAddressValid();
@@ -183,8 +184,6 @@ public class ApiController {
 
     @PostMapping("/post/operation")
     public String postOperation(@RequestBody OperationPostDTO body) {
-        // TODO: add data validation
-
         Date today = new Date();
 
         final int OPERATION_DAYS = 14;

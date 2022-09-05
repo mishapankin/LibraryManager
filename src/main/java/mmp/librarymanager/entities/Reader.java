@@ -58,4 +58,8 @@ public class Reader {
     public boolean isPhoneValid() {
         return phone.equals("") || Pattern.matches("\\+\\d{11,13}", phone);
     }
+
+    public void NullifyId() {
+        id = null;
+    }
 }
