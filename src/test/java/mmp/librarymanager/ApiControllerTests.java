@@ -1,5 +1,6 @@
 package mmp.librarymanager;
 
+import ch.qos.logback.core.encoder.EchoEncoder;
 import mmp.librarymanager.repositories.*;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -17,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+
+import javax.print.attribute.standard.Media;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -139,5 +142,56 @@ public class ApiControllerTests {
                 .andExpect(jsonPath("name", is(true)))
                 .andExpect(jsonPath("address", is(false)))
                 .andExpect(jsonPath("email", is(false)));
+    }
+
+    @Test
+    public void getPublishers() throws Exception {
+        mvc.perform(get("/api/get/publishers")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
+    }
+
+    @Test
+    public void getTitles() throws Exception {
+        mvc.perform(get("/api/get/authors")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
+    }
+
+    @Test
+    public void bookInfo() throws Exception {
+        mvc.perform(get("/api/get/book_info")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void bookInstancesBadRequest() throws Exception {
+        mvc.perform(get("/api/get/book_instances")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void bookInstances() throws Exception {
+        mvc.perform(get("/api/get/book_instances/by_id?id=51")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void operations() throws Exception {
+        mvc.perform(get("/api/get/operations")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void notFound() throws Exception {
+        mvc.perform(get("/not/api")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }

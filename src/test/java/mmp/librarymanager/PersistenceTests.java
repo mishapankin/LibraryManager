@@ -278,5 +278,4 @@ public class PersistenceTests {
                         "Алая роза"))
                 .hasSize(1);
     }
-
 }
